@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { TopMovies } from './components/TopMovies';
 import { TopTV } from './components/TopTV';
@@ -50,5 +51,6 @@ const App = () => {
     </ThemeProvider>
   );
 };
+
 
 export default App;
