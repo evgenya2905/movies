@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IResponse, IMovie, ITVShow } from '../types/types';
+import { IResponse, IMovie, ITVShow, IResponseGenres } from '../types/types';
 
 export const movieApi = createApi({
   reducerPath: 'movieApi',
@@ -11,15 +11,32 @@ export const movieApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getTopMovies: builder.query<IResponse<IMovie[]>, void>({
-      query: () => ({
-        url: '/movie/top_rated?language=en-US',
+    getTopMovies: builder.query<IResponse<IMovie[]>, number>({
+      query: (page) => ({
+        url: `/movie/top_rated?language=en-US&page=${page}`,
       }),
     }),
-    getTopTV: builder.query<IResponse<ITVShow[]>, void>({
-      query: () => '/tv/top_rated?language=en-US',
+    getTopTV: builder.query<IResponse<ITVShow[]>, number>({
+      query: (page) => ({
+        url: `/tv/top_rated?language=en-US&page=${page}`,
+      }),
+    }),
+    getGenresMovie: builder.query<IResponseGenres, void>({
+      query: () => ({
+        url: `/genre/movie/list?language=en`,
+      }),
+    }),
+    getGenresTVShow: builder.query<IResponseGenres, void>({
+      query: () => ({
+        url: `/genre/tv/list?language=en`,
+      }),
     }),
   }),
 });
 
-export const { useLazyGetTopMoviesQuery, useLazyGetTopTVQuery } = movieApi;
+export const {
+  useLazyGetTopMoviesQuery,
+  useLazyGetTopTVQuery,
+  useLazyGetGenresMovieQuery,
+  useLazyGetGenresTVShowQuery,
+} = movieApi;

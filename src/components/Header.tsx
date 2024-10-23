@@ -1,7 +1,5 @@
 import { AppBar, Box, Toolbar, InputBase, Typography } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import ConnectedTvIcon from '@mui/icons-material/ConnectedTv';
-import { Lists } from './Lists';
+import { Search, ConnectedTv } from '@mui/icons-material';
 
 export const Header = () => {
   return (
@@ -15,7 +13,7 @@ export const Header = () => {
           }}
         >
           <Typography variant="h1">
-            <ConnectedTvIcon fontSize="large" /> APPMOVTV
+            <ConnectedTv fontSize="large" /> APPMOVTV
           </Typography>
           <Box
             sx={{
@@ -32,10 +30,9 @@ export const Header = () => {
               }}
               placeholder="search..."
             />
-            <SearchIcon />
+            <Search />
           </Box>
         </Toolbar>
-        <Lists />
       </AppBar>
     </Box>
   );

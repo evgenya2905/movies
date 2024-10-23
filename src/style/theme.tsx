@@ -144,6 +144,29 @@ const theme = createTheme({
         },
       },
     },
+    MuiTabs: {
+      styleOverrides: {
+        indicator: {
+          backgroundColor: colors.contrastColor,
+        },
+        flexContainer: {
+          justifyContent: 'space-around',
+        },
+        root: {
+          backgroundColor: colors.primaryDark,
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          color: colors.contrastColor,
+          '&.Mui-selected': {
+            color: colors.contrastColor,
+          },
+        },
+      },
+    },
   },
 });
 

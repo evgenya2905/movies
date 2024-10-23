@@ -1,10 +1,9 @@
-import { Item, Loader, Pages } from './';
+import { Item, Loader, Pages } from '.';
 import { useEffect, useState } from 'react';
-import { useLazyGetTopMoviesQuery } from '../store/movieApi';
+import { useLazyGetTopTVQuery } from '../store/movieApi';
 
-export const TopMovies = () => {
-  const [getTopMovies, { data: movies, error, isFetching }] =
-    useLazyGetTopMoviesQuery();
+export const TopTVShows = () => {
+  const [getTopTV, { data: tv, error, isFetching }] = useLazyGetTopTVQuery();
 
   const [page, setPage] = useState(1);
   const handleChangeFromChild = (value: number) => {
@@ -12,7 +11,7 @@ export const TopMovies = () => {
   };
 
   useEffect(() => {
-    getTopMovies(page);
+    getTopTV(page);
   }, [page]);
 
   return (
@@ -25,14 +24,13 @@ export const TopMovies = () => {
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'space-around',
-            gap: '30px',
-            padding: '10px',
+            gap: '10px',
           }}
         >
-          {movies?.results.map((item) => (
+          {tv?.results.map((item) => (
             <Item
               key={item.id}
-              title={item.title}
+              title={item.name}
               poster_path={item.poster_path}
               vote_average={item.vote_average}
             />
@@ -41,7 +39,7 @@ export const TopMovies = () => {
       )}
 
       <Pages
-        count={movies?.total_pages}
+        count={tv?.total_pages}
         page={page}
         onChange={handleChangeFromChild}
       />

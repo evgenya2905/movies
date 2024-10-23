@@ -5,7 +5,7 @@ export const Item = ({ poster_path, vote_average, title }: IItem) => {
   const url_img = `https://image.tmdb.org/t/p/w200${poster_path}`;
 
   function makeRate(num: number): number {
-    let rate = num / 2;
+    let rate = num;
     return rate;
   }
 
@@ -14,7 +14,7 @@ export const Item = ({ poster_path, vote_average, title }: IItem) => {
   return (
     <Card>
       <CardHeader title={title} />
-      <Rating value={newRate} max={5} precision={0.1} readOnly />
+      <Rating size="small" value={newRate} max={10} precision={0.1} readOnly />
       <CardMedia component="img" src={url_img} />
     </Card>
   );
