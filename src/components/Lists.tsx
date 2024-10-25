@@ -5,8 +5,13 @@ import {
   TopTVShows,
   GenresMovie,
   GenresTVShow,
+  FavoriteMovies,
+  FavoriteTVShows,
   SwitchButton,
+  WatchlistMovies,
+  WatchlistTVShows,
 } from './';
+import { Route, Routes, Link } from 'react-router-dom';
 
 export const Lists = () => {
   const [value, setValue] = useState('Top');
@@ -33,18 +38,49 @@ export const Lists = () => {
           aria-label="scrollable types of tabs"
           sx={{ justifyContent: 'center' }}
         >
-          <Tab label="Top" value="Top" />
-          <Tab label="Genres" value="Genres" />
-          <Tab label="Favorite" value="Favorite" />
-          <Tab label="Watchlist" value="Watchlist" />
+          <Tab component={Link} to="/" label="Top" value="Top" />
+          <Tab component={Link} to="/genres" label="Genres" value="Genres" />
+          <Tab
+            component={Link}
+            to="/favorite"
+            label="Favorite"
+            value="Favorite"
+          />
+          <Tab
+            component={Link}
+            to="/watchlist"
+            label="Watchlist"
+            value="Watchlist"
+          />
         </Tabs>
       </Box>
 
       <SwitchButton flag={flag} onChange={handleFlag} />
 
-      {value === 'Top' && (flag === 'movies' ? <TopMovies /> : <TopTVShows />)}
-      {value === 'Genres' &&
-        (flag === 'movies' ? <GenresMovie /> : <GenresTVShow />)}
+      <Routes>
+        <Route
+          path="/"
+          element={flag === 'movies' ? <TopMovies /> : <TopTVShows />}
+        />
+        <Route
+          path="/genres"
+          element={flag === 'movies' ? <GenresMovie /> : <GenresTVShow />}
+        />
+        <Route
+          path="/favorite"
+          element={flag === 'movies' ? <FavoriteMovies /> : <FavoriteTVShows />}
+        />
+        <Route
+          path="/watchlist"
+          element={
+            flag === 'movies' ? <WatchlistMovies /> : <WatchlistTVShows />
+          }
+        />
+      </Routes>
+
+      {/*  {value === 'Top' && (flag === 'movies' ? <TopMovies /> : <TopTVShows />)} */}
+      {/*  {value === 'Genres' &&
+        (flag === 'movies' ? <GenresMovie /> : <GenresTVShow />)} */}
     </div>
   );
 };

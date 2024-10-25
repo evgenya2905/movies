@@ -124,6 +124,7 @@ const theme = createTheme({
         root: {
           textAlign: 'center',
           color: colors.contrastColor,
+          padding: '4px',
 
           '& .MuiCardHeader-title': {
             overflow: 'hidden',
@@ -164,6 +165,14 @@ const theme = createTheme({
           '&.Mui-selected': {
             color: colors.contrastColor,
           },
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: colors.backgroundForElements,
+          color: colors.textPrimary,
         },
       },
     },

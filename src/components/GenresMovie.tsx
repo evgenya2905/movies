@@ -1,9 +1,10 @@
 import { useLazyGetGenresMovieQuery } from '../store/movieApi';
 import { useEffect } from 'react';
-import { List, ListItem, ListItemText } from '@mui/material';
+import { GenreCard } from './';
+import { Box } from '@mui/material';
 
 export const GenresMovie = () => {
-  const [getGenresMovie, { data: data, error, isFetching }] =
+  const [getGenresMovie, { data, error, isFetching }] =
     useLazyGetGenresMovieQuery();
 
   useEffect(() => {
@@ -11,14 +12,17 @@ export const GenresMovie = () => {
   }, []);
 
   return (
-    <div>
-      <List>
-        {data?.genres.map((item) => (
-          <ListItem key={item.id}>
-            <ListItemText primary={item.name} />
-          </ListItem>
-        ))}
-      </List>
-    </div>
+    <Box
+      sx={{
+        margin: '2rem',
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '1.5rem',
+      }}
+    >
+      {data?.genres.map((item) => <GenreCard key={item.id} name={item.name} />)}
+    </Box>
   );
 };
