@@ -1,4 +1,4 @@
-import { Item, Loader, Pages } from './';
+import { Item, Loader, Pages, WrapperTopList } from './';
 import { useEffect, useState } from 'react';
 import { useLazyGetTopMoviesQuery } from '../store/movieApi';
 
@@ -20,15 +20,7 @@ export const TopMovies = () => {
       {isFetching ? (
         <Loader />
       ) : (
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
-            gap: '30px',
-            padding: '10px',
-          }}
-        >
+        <WrapperTopList>
           {movies?.results.map((item) => (
             <Item
               key={item.id}
@@ -37,7 +29,7 @@ export const TopMovies = () => {
               vote_average={item.vote_average}
             />
           ))}
-        </div>
+        </WrapperTopList>
       )}
 
       <Pages

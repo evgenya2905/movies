@@ -4,7 +4,7 @@ import { ISwitchButtonProps } from '../types/types';
 export const SwitchButton = ({ flag, onChange }: ISwitchButtonProps) => {
   return (
     <ToggleButtonGroup
-      sx={{ pl: 5 }}
+      sx={{ pl: 5, mt: 2.5 }}
       value={flag}
       exclusive
       onChange={onChange}

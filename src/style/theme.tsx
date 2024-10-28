@@ -176,6 +176,17 @@ const theme = createTheme({
         },
       },
     },
+    MuiPagination: {
+      styleOverrides: {
+        root: {
+          paddingTop: '1rem',
+          paddingBottom: '2rem',
+          '& .MuiPagination-ul': {
+            justifyContent: 'center',
+          },
+        },
+      },
+    },
   },
 });
 

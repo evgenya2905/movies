@@ -1,10 +1,9 @@
 import { useLazyGetGenresTVShowQuery } from '../store/movieApi';
 import { useEffect } from 'react';
-import { GenreCard } from './';
-import { Box } from '@mui/material';
+import { GenreCard, Loader, WrapperGenres } from './';
 
 export const GenresTVShow = () => {
-  const [getGenresTVShow, { data: data, error, isFetching }] =
+  const [getGenresTVShow, { data, error, isFetching }] =
     useLazyGetGenresTVShowQuery();
 
   useEffect(() => {
@@ -12,17 +11,16 @@ export const GenresTVShow = () => {
   }, []);
 
   return (
-    <Box
-      sx={{
-        margin: '2rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignContent: 'space-between',
-        gap: '1.5rem',
-        flexWrap: 'wrap',
-      }}
-    >
-      {data?.genres.map((item) => <GenreCard key={item.id} name={item.name} />)}
-    </Box>
+    <div>
+      {isFetching ? (
+        <Loader />
+      ) : (
+        <WrapperGenres>
+          {data?.genres.map((item) => (
+            <GenreCard key={item.id} name={item.name} />
+          ))}
+        </WrapperGenres>
+      )}
+    </div>
   );
 };

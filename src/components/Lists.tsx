@@ -1,5 +1,5 @@
 import { Box, Tab, Tabs } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   TopMovies,
   TopTVShows,
@@ -11,10 +11,31 @@ import {
   WatchlistMovies,
   WatchlistTVShows,
 } from './';
-import { Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes, Link, useLocation } from 'react-router-dom';
 
 export const Lists = () => {
+  const location = useLocation();
   const [value, setValue] = useState('Top');
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case '/':
+        setValue('Top');
+        break;
+      case '/genres':
+        setValue('Genres');
+        break;
+      case '/favorite':
+        setValue('Favorite');
+        break;
+      case '/watchlist':
+        setValue('Watchlist');
+        break;
+      default:
+        setValue('Top');
+    }
+  }, [location.pathname]);
+
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };

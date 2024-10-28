@@ -14,3 +14,4 @@ export * from './WatchlistMovies';
 export * from './WatchlistTVShows';
 export * from './GenreCard';
 export * from './ItemDetail';
+export * from './Wrapper';
