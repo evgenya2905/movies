@@ -1,19 +1,24 @@
 import { Box, Tab, Tabs } from '@mui/material';
 import { useState, useEffect } from 'react';
-import {
-  TopMovies,
-  TopTVShows,
-  GenresMovie,
-  GenresTVShow,
-  FavoriteMovies,
-  FavoriteTVShows,
-  SwitchButton,
-  WatchlistMovies,
-  WatchlistTVShows,
-} from './';
-import { Route, Routes, Link, useLocation } from 'react-router-dom';
+import { SwitchButton } from './';
+import { Link, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import { switchValue } from '../store/switchSlice';
 
 export const Lists = () => {
+  const flag = useSelector((state: RootState) => state.switch.value);
+  const dispatch = useDispatch();
+
+  const handleFlag = (
+    event: React.MouseEvent<HTMLElement>,
+    newFlag: string | null
+  ) => {
+    if (newFlag !== null) {
+      dispatch(switchValue(newFlag));
+    }
+  };
+
   const location = useLocation();
   const [value, setValue] = useState('Top');
 
@@ -38,14 +43,6 @@ export const Lists = () => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
-  };
-
-  const [flag, setFlag] = useState<string | null>('movies');
-  const handleFlag = (
-    event: React.MouseEvent<HTMLElement>,
-    newFlag: string | null
-  ) => {
-    setFlag(newFlag);
   };
 
   return (
@@ -77,31 +74,6 @@ export const Lists = () => {
       </Box>
 
       <SwitchButton flag={flag} onChange={handleFlag} />
-
-      <Routes>
-        <Route
-          path="/"
-          element={flag === 'movies' ? <TopMovies /> : <TopTVShows />}
-        />
-        <Route
-          path="/genres"
-          element={flag === 'movies' ? <GenresMovie /> : <GenresTVShow />}
-        />
-        <Route
-          path="/favorite"
-          element={flag === 'movies' ? <FavoriteMovies /> : <FavoriteTVShows />}
-        />
-        <Route
-          path="/watchlist"
-          element={
-            flag === 'movies' ? <WatchlistMovies /> : <WatchlistTVShows />
-          }
-        />
-      </Routes>
-
-      {/*  {value === 'Top' && (flag === 'movies' ? <TopMovies /> : <TopTVShows />)} */}
-      {/*  {value === 'Genres' &&
-        (flag === 'movies' ? <GenresMovie /> : <GenresTVShow />)} */}
     </div>
   );
 };

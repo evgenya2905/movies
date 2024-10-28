@@ -12,6 +12,7 @@ export * from './FavoriteMovies';
 export * from './FavoriteTVShows';
 export * from './WatchlistMovies';
 export * from './WatchlistTVShows';
+export * from './NotFoundPage';
 export * from './GenreCard';
 export * from './ItemDetail';
 export * from './Wrapper';

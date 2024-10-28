@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { movieApi } from './movieApi';
+import switchReducer from './switchSlice';
 
 export const store = configureStore({
   reducer: {
     [movieApi.reducerPath]: movieApi.reducer,
+    switch: switchReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(movieApi.middleware),
