@@ -5,7 +5,7 @@ export interface ISwitchState {
 }
 
 const initialState: ISwitchState = {
-  value: 'movies',
+  value: 'movie',
 };
 
 export const switchSlice = createSlice({

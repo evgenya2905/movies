@@ -6,6 +6,8 @@ export const Pages = (props: ICount) => {
     props.onChange(value);
   };
 
+  console.log(props);
+
   return (
     <Pagination
       sx={{

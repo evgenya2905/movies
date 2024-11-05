@@ -2,17 +2,15 @@ import { Header, Lists } from './components';
 import { Box, ThemeProvider } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import {
-  TopMovies,
-  TopTVShows,
-  GenresMovie,
-  GenresTVShow,
-  FavoriteMovies,
-  FavoriteTVShows,
-  WatchlistMovies,
-  WatchlistTVShows,
+  TitlesListTopRated,
+  TitlesGenres,
+  ListMoviesByGenre,
+  TitlesListFavorite,
+  TitlesWatchlist,
+  ItemDetail,
   NotFoundPage,
 } from './components';
-import { useSelector, UseSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from './store/store';
 import theme from './style/theme';
 
@@ -32,23 +30,14 @@ const App = () => {
         <Lists />
       </Box>
       <Routes>
+        <Route path="/" element={<TitlesListTopRated />} />
+        <Route path="/genres" element={<TitlesGenres />} />
+        <Route path="/favorite" element={<TitlesListFavorite />} />
+        <Route path="/watchlist" element={<TitlesWatchlist />} />
+        <Route path="/:id/:title" element={<ItemDetail />} />
         <Route
-          path="/"
-          element={flag === 'movies' ? <TopMovies /> : <TopTVShows />}
-        />
-        <Route
-          path="/genres"
-          element={flag === 'movies' ? <GenresMovie /> : <GenresTVShow />}
-        />
-        <Route
-          path="/favorite"
-          element={flag === 'movies' ? <FavoriteMovies /> : <FavoriteTVShows />}
-        />
-        <Route
-          path="/watchlist"
-          element={
-            flag === 'movies' ? <WatchlistMovies /> : <WatchlistTVShows />
-          }
+          path="/genres/:category/:genre/:id"
+          element={<ListMoviesByGenre />}
         />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

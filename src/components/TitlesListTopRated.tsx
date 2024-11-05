@@ -1,19 +1,28 @@
-import { Item, Loader, Pages, WrapperTopList } from './';
+import { Item, Loader, Pages, WrapperTopList } from '.';
 import { useEffect, useState } from 'react';
-import { useLazyGetTopMoviesQuery } from '../store/movieApi';
+import { useLazyGetTopTitlesQuery } from '../store/movieApi';
+import { useSelector } from 'react-redux';
+import { selectCategory } from '../store/selectors';
 
-export const TopMovies = () => {
-  const [getTopMovies, { data: movies, error, isFetching }] =
-    useLazyGetTopMoviesQuery();
+export const TitlesListTopRated = () => {
+  const [getTopTitles, { data: movies, error, isFetching }] =
+    useLazyGetTopTitlesQuery();
+  console.log(movies);
 
   const [page, setPage] = useState(1);
   const handleChangeFromChild = (value: number) => {
     setPage(value);
   };
 
+  const category = useSelector(selectCategory);
+
   useEffect(() => {
-    getTopMovies(page);
-  }, [page]);
+    getTopTitles({ category, page });
+  }, [category, page]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [category]);
 
   return (
     <div>
@@ -24,7 +33,8 @@ export const TopMovies = () => {
           {movies?.results.map((item) => (
             <Item
               key={item.id}
-              title={item.title}
+              id={item.id}
+              title={category === 'movie' ? item.title : item.name}
               poster_path={item.poster_path}
               vote_average={item.vote_average}
             />
