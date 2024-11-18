@@ -1,13 +1,12 @@
+import { useLazyGetWatchlistTitlesQuery } from '../store/movieApi';
 import { useEffect, useState } from 'react';
-import { useLazyGetFavoriteTitlesQuery } from '../store/movieApi';
 import { useSelector } from 'react-redux';
 import { selectCategory } from '../store/selectors';
-import { Loader, WrapperTopList, Item, Pages } from './';
+import { Loader, Pages, WrapperTopList, Item } from '../components';
 
-export const TitlesListFavorite = () => {
-  const [getFavoriteTitles, { data, error, isFetching }] =
-    useLazyGetFavoriteTitlesQuery();
-  console.log(data);
+export const TitlesWatchlist = () => {
+  const [getWatchlistTitles, { data, error, isFetching }] =
+    useLazyGetWatchlistTitlesQuery();
 
   const flag = useSelector(selectCategory);
   const category = flag === 'movie' ? 'movies' : 'tv';
@@ -18,12 +17,13 @@ export const TitlesListFavorite = () => {
   };
 
   useEffect(() => {
-    getFavoriteTitles({ category, page });
-  }, [flag, page]);
+    getWatchlistTitles({ category, page });
+  }, [category, page]);
   useEffect(() => {
     setPage(1);
   }, [flag]);
 
+  console.log(data);
   return (
     <div>
       {isFetching ? (

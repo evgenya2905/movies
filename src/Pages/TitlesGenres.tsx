@@ -1,6 +1,11 @@
 import { useLazyGetTitlesGenresQuery } from '../store/movieApi';
 import { useEffect } from 'react';
-import { GenreCard, Loader, WrapperGenres, ListMoviesByGenre } from '.';
+import {
+  GenreCard,
+  Loader,
+  WrapperGenres,
+  ListMoviesByGenre,
+} from '../components';
 import { useSelector } from 'react-redux';
 import { selectCategory } from '../store/selectors';
 

@@ -46,7 +46,7 @@ export const movieApi = createApi({
       }),
     }),
 
-    addFavoriteTitle: builder.mutation<any, any>({
+    toggleFavoriteTitle: builder.mutation<any, any>({
       query: (body) => ({
         url: '/account/21547725/favorite',
         method: 'POST',
@@ -58,11 +58,21 @@ export const movieApi = createApi({
         url: `/account/21547725/watchlist/${category}?language=en-US&page=${page}`,
       }),
     }),
-    addWatchlistTitle: builder.mutation<any, any>({
+    toggleWatchlistTitle: builder.mutation<any, any>({
       query: (body) => ({
         url: '/account/21547725/watchlist',
         method: 'POST',
         body,
+      }),
+    }),
+    checkStatus: builder.query<any, any>({
+      query: ({ category, id }) => ({
+        url: `/${category}/${id}/account_states`,
+      }),
+    }),
+    getTitlesBySearch: builder.query<any, any>({
+      query: (key) => ({
+        url: `/search/multi?query=${key}`,
       }),
     }),
   }),
@@ -74,7 +84,9 @@ export const {
   useLazyGetTitleByIdQuery,
   useLazyGetTitleByGenreQuery,
   useLazyGetFavoriteTitlesQuery,
-  useAddFavoriteTitleMutation,
+  useToggleFavoriteTitleMutation,
   useLazyGetWatchlistTitlesQuery,
-  useAddWatchlistTitleMutation,
+  useToggleWatchlistTitleMutation,
+  useLazyCheckStatusQuery,
+  useLazyGetTitlesBySearchQuery,
 } = movieApi;

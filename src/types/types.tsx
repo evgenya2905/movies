@@ -53,11 +53,8 @@ export interface IItem {
 }
 
 export interface ISwitchButtonProps {
-  flag: string | null;
-  onChange: (
-    event: React.MouseEvent<HTMLElement>,
-    newFlag: string | null
-  ) => void;
+  flag: FlagType;
+  onChange: (event: React.MouseEvent<HTMLElement>, newFlag: FlagType) => void;
 }
 
 export interface ICount {
@@ -81,3 +78,5 @@ export interface ITitleByGenre {
   poster_path: string;
   vote_average: number;
 }
+
+export type FlagType = 'movie' | 'tv';

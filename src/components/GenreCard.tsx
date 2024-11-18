@@ -8,7 +8,11 @@ export const GenreCard = ({ name, id }: { name: string; id: number }) => {
   console.log(category);
   return (
     <div>
-      <Box component={Link} to={`/genres/${category}/${name}/${id}`}>
+      <Box
+        component={Link}
+        to={`/genres/${category}/${name}/${id}`}
+        sx={{ textDecoration: 'none' }}
+      >
         <Paper elevation={10} sx={{ padding: '1rem', width: '10rem' }}>
           <Typography
             variant="h6"

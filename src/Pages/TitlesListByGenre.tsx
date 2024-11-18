@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { useLazyGetTitleByGenreQuery } from '../store/movieApi';
 import { useEffect, useState } from 'react';
-import { Item, Loader, WrapperTopList, Pages } from './';
+import { Item, Loader, WrapperTopList, Pages } from '../components';
 import { Typography } from '@mui/material';
 
-export const ListMoviesByGenre = () => {
+export const TitlesListByGenre = () => {
   const { category, genre, id } = useParams();
   console.log(category, genre, id);
 

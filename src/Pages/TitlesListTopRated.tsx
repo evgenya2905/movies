@@ -1,40 +1,39 @@
-import { useLazyGetWatchlistTitlesQuery } from '../store/movieApi';
+import { Item, Loader, Pages, WrapperTopList } from '../components';
 import { useEffect, useState } from 'react';
+import { useLazyGetTopTitlesQuery } from '../store/movieApi';
 import { useSelector } from 'react-redux';
 import { selectCategory } from '../store/selectors';
-import { Loader, Pages, WrapperTopList, Item } from './';
 
-export const TitlesWatchlist = () => {
-  const [getWatchlistTitles, { data, error, isFetching }] =
-    useLazyGetWatchlistTitlesQuery();
-
-  const flag = useSelector(selectCategory);
-  const category = flag === 'movie' ? 'movies' : 'tv';
+export const TitlesListTopRated = () => {
+  const [getTopTitles, { data: movies, error, isFetching }] =
+    useLazyGetTopTitlesQuery();
 
   const [page, setPage] = useState(1);
   const handleChangeFromChild = (value: number) => {
     setPage(value);
   };
 
+  const category = useSelector(selectCategory);
+
   useEffect(() => {
-    getWatchlistTitles({ category, page });
+    getTopTitles({ category, page });
   }, [category, page]);
+
   useEffect(() => {
     setPage(1);
-  }, [flag]);
+  }, [category]);
 
-  console.log(data);
   return (
     <div>
       {isFetching ? (
         <Loader />
       ) : (
         <WrapperTopList>
-          {data?.results.map((item) => (
+          {movies?.results.map((item) => (
             <Item
               key={item.id}
               id={item.id}
-              title={flag === 'movie' ? item.title : item.name}
+              title={category === 'movie' ? item.title : item.name}
               poster_path={item.poster_path}
               vote_average={item.vote_average}
             />
@@ -43,7 +42,7 @@ export const TitlesWatchlist = () => {
       )}
 
       <Pages
-        count={data?.total_pages}
+        count={movies?.total_pages}
         page={page}
         onChange={handleChangeFromChild}
       />

@@ -1,15 +1,16 @@
-import { Header, Lists } from './components';
 import { Box, ThemeProvider } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import {
   TitlesListTopRated,
   TitlesGenres,
-  ListMoviesByGenre,
+  TitlesListByGenre,
   TitlesListFavorite,
   TitlesWatchlist,
   ItemDetail,
   NotFoundPage,
-} from './components';
+} from './Pages';
+
+import { Header, Tabs } from './components';
 import { useSelector } from 'react-redux';
 import { RootState } from './store/store';
 import theme from './style/theme';
@@ -27,18 +28,19 @@ const App = () => {
         }}
       >
         <Header />
-        <Lists />
+        <Tabs />
       </Box>
       <Routes>
         <Route path="/" element={<TitlesListTopRated />} />
         <Route path="/genres" element={<TitlesGenres />} />
         <Route path="/favorite" element={<TitlesListFavorite />} />
         <Route path="/watchlist" element={<TitlesWatchlist />} />
-        <Route path="/:id/:title" element={<ItemDetail />} />
+        <Route path="/:category/:id/:title" element={<ItemDetail />} />
         <Route
           path="/genres/:category/:genre/:id"
-          element={<ListMoviesByGenre />}
+          element={<TitlesListByGenre />}
         />
+        {/* <Route path="/search/:key" element={<TitlesBySearch />}></Route> */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </ThemeProvider>

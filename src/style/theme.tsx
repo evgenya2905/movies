@@ -106,7 +106,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           width: '16rem',
-          height: '25rem',
+          height: '24rem',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -124,7 +124,7 @@ const theme = createTheme({
         root: {
           textAlign: 'center',
           color: colors.contrastColor,
-          padding: '4px',
+          padding: '10px',
 
           '& .MuiCardHeader-title': {
             overflow: 'hidden',

@@ -1,18 +1,20 @@
-import { Box, Tab, Tabs } from '@mui/material';
+import { Box, Tab, Tabs as MuiTabs } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { SwitchButton } from './';
+import { SwitchButton } from '.';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { switchValue } from '../store/switchSlice';
+import { FlagType } from '../types/types';
+import { getFlag } from '../shared/utils';
 
-export const Lists = () => {
+export const Tabs = () => {
   const flag = useSelector((state: RootState) => state.switch.value);
   const dispatch = useDispatch();
 
   const handleFlag = (
     event: React.MouseEvent<HTMLElement>,
-    newFlag: string | null
+    newFlag: FlagType
   ) => {
     if (newFlag !== null) {
       dispatch(switchValue(newFlag));
@@ -45,10 +47,17 @@ export const Lists = () => {
     setValue(newValue);
   };
 
+  useEffect(() => {
+    const flagFromStorage = getFlag();
+    if (flagFromStorage) {
+      dispatch(switchValue(flagFromStorage));
+    }
+  }, [flag]);
+
   return (
     <div>
       <Box sx={{ margin: '0' }}>
-        <Tabs
+        <MuiTabs
           value={value}
           onChange={handleChange}
           variant="scrollable"
@@ -70,7 +79,7 @@ export const Lists = () => {
             label="Watchlist"
             value="Watchlist"
           />
-        </Tabs>
+        </MuiTabs>
       </Box>
 
       <SwitchButton flag={flag} onChange={handleFlag} />

@@ -1,28 +1,28 @@
-import { Item, Loader, Pages, WrapperTopList } from '.';
 import { useEffect, useState } from 'react';
-import { useLazyGetTopTitlesQuery } from '../store/movieApi';
+import { useLazyGetFavoriteTitlesQuery } from '../store/movieApi';
 import { useSelector } from 'react-redux';
 import { selectCategory } from '../store/selectors';
+import { Loader, WrapperTopList, Item, Pages } from '../components';
 
-export const TitlesListTopRated = () => {
-  const [getTopTitles, { data: movies, error, isFetching }] =
-    useLazyGetTopTitlesQuery();
-  console.log(movies);
+export const TitlesListFavorite = () => {
+  const [getFavoriteTitles, { data, error, isFetching }] =
+    useLazyGetFavoriteTitlesQuery();
+  console.log(data);
+
+  const flag = useSelector(selectCategory);
+  const category = flag === 'movie' ? 'movies' : 'tv';
 
   const [page, setPage] = useState(1);
   const handleChangeFromChild = (value: number) => {
     setPage(value);
   };
 
-  const category = useSelector(selectCategory);
-
   useEffect(() => {
-    getTopTitles({ category, page });
-  }, [category, page]);
-
+    getFavoriteTitles({ category, page });
+  }, [flag, page]);
   useEffect(() => {
     setPage(1);
-  }, [category]);
+  }, [flag]);
 
   return (
     <div>
@@ -30,11 +30,11 @@ export const TitlesListTopRated = () => {
         <Loader />
       ) : (
         <WrapperTopList>
-          {movies?.results.map((item) => (
+          {data?.results.map((item) => (
             <Item
               key={item.id}
               id={item.id}
-              title={category === 'movie' ? item.title : item.name}
+              title={flag === 'movie' ? item.title : item.name}
               poster_path={item.poster_path}
               vote_average={item.vote_average}
             />
@@ -43,7 +43,7 @@ export const TitlesListTopRated = () => {
       )}
 
       <Pages
-        count={movies?.total_pages}
+        count={data?.total_pages}
         page={page}
         onChange={handleChangeFromChild}
       />
