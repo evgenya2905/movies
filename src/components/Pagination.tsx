@@ -2,7 +2,7 @@ import { Pagination } from '@mui/material';
 import { ICount } from '../types/types';
 
 export const Pages = (props: ICount) => {
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     props.onChange(value);
   };
 
