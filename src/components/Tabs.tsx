@@ -14,7 +14,7 @@ export const Tabs = () => {
   const dispatch = useDispatch();
 
   const handleFlag = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     newFlag: FlagType
   ) => {
     if (newFlag !== null) {
@@ -22,7 +22,11 @@ export const Tabs = () => {
     }
   };
 
-  const handleChange = (event: React.SyntheticEvent, newValue: TabNameType) => {
+
+  const handleChange = (
+    _event: React.SyntheticEvent,
+    newValue: TabNameType
+  ) => {
     dispatch(changeTab(newValue));
   };
 
