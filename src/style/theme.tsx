@@ -106,7 +106,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           width: '16rem',
-          height: '25rem',
+          height: '24rem',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -124,6 +124,7 @@ const theme = createTheme({
         root: {
           textAlign: 'center',
           color: colors.contrastColor,
+          padding: '10px',
 
           '& .MuiCardHeader-title': {
             overflow: 'hidden',
@@ -148,9 +149,13 @@ const theme = createTheme({
       styleOverrides: {
         indicator: {
           backgroundColor: colors.contrastColor,
+          minWidth: '4rem',
+          position: 'absolute',
         },
         flexContainer: {
-          justifyContent: 'space-around',
+          justifyContent: 'flex-start',
+          paddingLeft: '12rem',
+          gap: '15rem',
         },
         root: {
           backgroundColor: colors.primaryDark,
@@ -161,8 +166,30 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           color: colors.contrastColor,
+          width: '4rem',
+          textAlign: 'center',
+          position: 'relative',
           '&.Mui-selected': {
             color: colors.contrastColor,
+          },
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: colors.backgroundForElements,
+          color: colors.textPrimary,
+        },
+      },
+    },
+    MuiPagination: {
+      styleOverrides: {
+        root: {
+          paddingTop: '1rem',
+          paddingBottom: '2rem',
+          '& .MuiPagination-ul': {
+            justifyContent: 'center',
           },
         },
       },
