@@ -8,7 +8,9 @@ export const Pages = (props: ICount) => {
 
   return (
     <Pagination
-      sx={{ alignSelf: 'center' }}
+      sx={{
+        justifyContent: 'flex-end',
+      }}
       count={props.count}
       page={props.page}
       color="secondary"

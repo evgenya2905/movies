@@ -1,5 +1,15 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IResponse, IMovie, ITVShow, IResponseGenres } from '../types/types';
+import {
+  IResponse,
+  ITitle,
+  ITitleArguments,
+  IResponseGenres,
+  IResponseTitleByID,
+  ITitleByGenre,
+  ITitleBySearch,
+  IBodyPost,
+  IResponseCheckStatus,
+} from '../types/types';
 
 export const movieApi = createApi({
   reducerPath: 'movieApi',
@@ -11,32 +21,75 @@ export const movieApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getTopMovies: builder.query<IResponse<IMovie[]>, number>({
-      query: (page) => ({
-        url: `/movie/top_rated?language=en-US&page=${page}`,
+    getTopTitles: builder.query<IResponse<ITitle[]>, ITitleArguments>({
+      query: ({ category, page }) => ({
+        url: `/${category}/top_rated?language=en-US&page=${page}`,
       }),
     }),
-    getTopTV: builder.query<IResponse<ITVShow[]>, number>({
-      query: (page) => ({
-        url: `/tv/top_rated?language=en-US&page=${page}`,
+    getTitlesGenres: builder.query<IResponseGenres, ITitleArguments>({
+      query: ({ category }) => ({
+        url: `/genre/${category}/list?language=en`,
       }),
     }),
-    getGenresMovie: builder.query<IResponseGenres, void>({
-      query: () => ({
-        url: `/genre/movie/list?language=en`,
+    getTitleById: builder.query<IResponseTitleByID, ITitleArguments>({
+      query: ({ id, category }) => ({
+        url: `/${category}/${id}?language=en-US`,
       }),
     }),
-    getGenresTVShow: builder.query<IResponseGenres, void>({
-      query: () => ({
-        url: `/genre/tv/list?language=en`,
+    getTitleByGenre: builder.query<IResponse<ITitleByGenre[]>, ITitleArguments>(
+      {
+        query: ({ id, category, page }) => ({
+          url: `/discover/${category}?with_genres=${id}&page=${page}&sort_by=vote_average.desc`,
+        }),
+      }
+    ),
+    getFavoriteTitles: builder.query<IResponse<ITitle[]>, ITitleArguments>({
+      query: ({ category, page }) => ({
+        url: `/account/21547725/favorite/${category}?language=en-US&page=${page}`,
+      }),
+    }),
+
+    toggleFavoriteTitle: builder.mutation<{ success: boolean }, IBodyPost>({
+      query: (body) => ({
+        url: '/account/21547725/favorite',
+        method: 'POST',
+        body,
+      }),
+    }),
+    getWatchlistTitles: builder.query<IResponse<ITitle[]>, ITitleArguments>({
+      query: ({ category, page }) => ({
+        url: `/account/21547725/watchlist/${category}?language=en-US&page=${page}`,
+      }),
+    }),
+    toggleWatchlistTitle: builder.mutation<{ success: boolean }, IBodyPost>({
+      query: (body) => ({
+        url: '/account/21547725/watchlist',
+        method: 'POST',
+        body,
+      }),
+    }),
+    checkStatus: builder.query<IResponseCheckStatus, ITitleArguments>({
+      query: ({ category, id }) => ({
+        url: `/${category}/${id}/account_states`,
+      }),
+    }),
+    getTitlesBySearch: builder.query<IResponse<ITitleBySearch[]>, string>({
+      query: (key) => ({
+        url: `/search/multi?query=${key}`,
       }),
     }),
   }),
 });
 
 export const {
-  useLazyGetTopMoviesQuery,
-  useLazyGetTopTVQuery,
-  useLazyGetGenresMovieQuery,
-  useLazyGetGenresTVShowQuery,
+  useLazyGetTopTitlesQuery,
+  useLazyGetTitlesGenresQuery,
+  useLazyGetTitleByIdQuery,
+  useLazyGetTitleByGenreQuery,
+  useLazyGetFavoriteTitlesQuery,
+  useToggleFavoriteTitleMutation,
+  useLazyGetWatchlistTitlesQuery,
+  useToggleWatchlistTitleMutation,
+  useLazyCheckStatusQuery,
+  useLazyGetTitlesBySearchQuery,
 } = movieApi;

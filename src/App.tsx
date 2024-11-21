@@ -1,5 +1,17 @@
-import { Header, Lists } from './components';
+import { Route, Routes } from 'react-router-dom';
 import { Box, ThemeProvider } from '@mui/material';
+
+import {
+  TitlesListTopRated,
+  TitlesGenres,
+  TitlesListByGenre,
+  TitlesListFavorite,
+  TitlesWatchlist,
+  ItemDetail,
+  NotFoundPage,
+} from './Pages';
+
+import { Header, Tabs } from './components';
 import theme from './style/theme';
 
 const App = () => {
@@ -14,8 +26,20 @@ const App = () => {
         }}
       >
         <Header />
-        <Lists />
+        <Tabs />
       </Box>
+      <Routes>
+        <Route path="/" element={<TitlesListTopRated />} />
+        <Route path="/genres" element={<TitlesGenres />} />
+        <Route path="/favorite" element={<TitlesListFavorite />} />
+        <Route path="/watchlist" element={<TitlesWatchlist />} />
+        <Route path="/:category/:id/:title" element={<ItemDetail />} />
+        <Route
+          path="/genres/:category/:genre/:id"
+          element={<TitlesListByGenre />}
+        />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </ThemeProvider>
   );
 };
