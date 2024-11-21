@@ -22,6 +22,7 @@ export const Tabs = () => {
     }
   };
 
+
   const handleChange = (
     _event: React.SyntheticEvent,
     newValue: TabNameType
