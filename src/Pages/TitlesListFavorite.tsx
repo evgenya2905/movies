@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useLazyGetFavoriteTitlesQuery } from '../store/movieApi';
 import { useSelector } from 'react-redux';
-import { selectCategory } from '../store/selectors';
+import { RootState } from '../store/store';
+import { useLazyGetFavoriteTitlesQuery } from '../store/movieApi';
 import { Loader, WrapperTopList, Item, Pages } from '../components';
 
 export const TitlesListFavorite = () => {
-  const [getFavoriteTitles, { data, error, isFetching }] =
+  const [getFavoriteTitles, { data, isFetching }] =
     useLazyGetFavoriteTitlesQuery();
-  console.log(data);
 
-  const flag = useSelector(selectCategory);
+  const flag = useSelector((state: RootState) => state.switch.value);
+
   const category = flag === 'movie' ? 'movies' : 'tv';
 
   const [page, setPage] = useState(1);

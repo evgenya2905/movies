@@ -1,5 +1,6 @@
-import { Box, ThemeProvider } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
+import { Box, ThemeProvider } from '@mui/material';
+
 import {
   TitlesListTopRated,
   TitlesGenres,
@@ -11,12 +12,9 @@ import {
 } from './Pages';
 
 import { Header, Tabs } from './components';
-import { useSelector } from 'react-redux';
-import { RootState } from './store/store';
 import theme from './style/theme';
 
 const App = () => {
-  const flag = useSelector((state: RootState) => state.switch.value);
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -40,7 +38,6 @@ const App = () => {
           path="/genres/:category/:genre/:id"
           element={<TitlesListByGenre />}
         />
-        {/* <Route path="/search/:key" element={<TitlesBySearch />}></Route> */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </ThemeProvider>

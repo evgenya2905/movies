@@ -1,14 +1,14 @@
-import { useLazyGetWatchlistTitlesQuery } from '../store/movieApi';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectCategory } from '../store/selectors';
+import { useLazyGetWatchlistTitlesQuery } from '../store/movieApi';
+import { RootState } from '../store/store';
 import { Loader, Pages, WrapperTopList, Item } from '../components';
 
 export const TitlesWatchlist = () => {
-  const [getWatchlistTitles, { data, error, isFetching }] =
+  const [getWatchlistTitles, { data, isFetching }] =
     useLazyGetWatchlistTitlesQuery();
 
-  const flag = useSelector(selectCategory);
+  const flag = useSelector((state: RootState) => state.switch.value);
   const category = flag === 'movie' ? 'movies' : 'tv';
 
   const [page, setPage] = useState(1);
@@ -23,7 +23,6 @@ export const TitlesWatchlist = () => {
     setPage(1);
   }, [flag]);
 
-  console.log(data);
   return (
     <div>
       {isFetching ? (

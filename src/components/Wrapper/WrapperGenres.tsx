@@ -1,6 +1,7 @@
+import { ReactNode } from 'react';
 import { Box } from '@mui/material';
 
-export const WrapperGenres = ({ children }: any) => {
+export const WrapperGenres = ({ children }: { children: ReactNode }) => {
   return (
     <Box
       sx={{

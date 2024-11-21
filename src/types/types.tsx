@@ -1,24 +1,6 @@
-/* export interface IMovie {
-  id: number;
-  title: string;
-  overview: string;
-  release_date: string;
-  poster_path: string;
-  vote_average: number;
-}
-
-export interface ITVShow {
-  id: number;
-  name: string;
-  overview: string;
-  release_date: string;
-  poster_path: string;
-  vote_average: number;
-} */
-
 export interface ITitleArguments {
-  id?: string | undefined;
-  category: string;
+  id?: string;
+  category?: string;
   page?: number;
 }
 
@@ -28,6 +10,14 @@ export interface ITitle {
   name?: string;
   overview: string;
   poster_path: string;
+  vote_average: number;
+}
+
+export interface ITitleBySearch {
+  id: number;
+  media_type: string;
+  title?: string;
+  name?: string;
   vote_average: number;
 }
 
@@ -41,6 +31,11 @@ interface IGenre {
   name: string;
 }
 
+interface IProductionCountries {
+  iso_3166_1: string;
+  name: string;
+}
+
 export interface IResponseGenres {
   genres: IGenre[];
 }
@@ -49,7 +44,7 @@ export interface IItem {
   poster_path: string;
   title: string | undefined;
   vote_average: number;
-  id: number;
+  id: string;
 }
 
 export interface ISwitchButtonProps {
@@ -68,6 +63,7 @@ export interface IResponseTitleByID {
   poster_path: string;
   overview: string;
   genres: IGenre[];
+  production_countries: IProductionCountries[];
 }
 
 export interface ITitleByGenre {
@@ -79,4 +75,20 @@ export interface ITitleByGenre {
   vote_average: number;
 }
 
+export interface IBodyPost {
+  media_type: string;
+  media_id: string;
+  favorite?: boolean;
+  watchlist?: boolean;
+}
+
+export interface IResponseCheckStatus {
+  favorite: boolean;
+  id: number;
+  rated: boolean;
+  watchlist: boolean;
+}
+
 export type FlagType = 'movie' | 'tv';
+
+export type TabNameType = 'Top' | 'Genres' | 'Favorite' | 'Watchlist';

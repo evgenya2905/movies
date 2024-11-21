@@ -1,15 +1,16 @@
-import { Box, Tab, Tabs as MuiTabs } from '@mui/material';
-import { useState, useEffect } from 'react';
-import { SwitchButton } from '.';
-import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { Box, Tab, Tabs as MuiTabs } from '@mui/material';
 import { RootState } from '../store/store';
 import { switchValue } from '../store/switchSlice';
-import { FlagType } from '../types/types';
-import { getFlag } from '../shared/utils';
+import { changeTab } from '../store/changeTabSlice';
+import { SwitchButton } from './';
+import { FlagType, TabNameType } from '../types/types';
 
 export const Tabs = () => {
   const flag = useSelector((state: RootState) => state.switch.value);
+  const tabName = useSelector((state: RootState) => state.tab.value);
+
   const dispatch = useDispatch();
 
   const handleFlag = (
@@ -21,49 +22,29 @@ export const Tabs = () => {
     }
   };
 
-  const location = useLocation();
-  const [value, setValue] = useState('Top');
-
-  useEffect(() => {
-    switch (location.pathname) {
-      case '/':
-        setValue('Top');
-        break;
-      case '/genres':
-        setValue('Genres');
-        break;
-      case '/favorite':
-        setValue('Favorite');
-        break;
-      case '/watchlist':
-        setValue('Watchlist');
-        break;
-      default:
-        setValue('Top');
-    }
-  }, [location.pathname]);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
+  const handleChange = (event: React.SyntheticEvent, newValue: TabNameType) => {
+    dispatch(changeTab(newValue));
   };
 
-  useEffect(() => {
-    const flagFromStorage = getFlag();
-    if (flagFromStorage) {
-      dispatch(switchValue(flagFromStorage));
-    }
-  }, [flag]);
+  const allowedRoutes = ['/', '/genres', '/favorite', '/watchlist'];
+  const location = useLocation();
 
   return (
     <div>
       <Box sx={{ margin: '0' }}>
         <MuiTabs
-          value={value}
+          value={tabName}
           onChange={handleChange}
-          variant="scrollable"
-          scrollButtons={false}
-          aria-label="scrollable types of tabs"
+          variant="standard"
+          aria-label="standard tabs"
           sx={{ justifyContent: 'center' }}
+          TabIndicatorProps={{
+            sx: {
+              display: allowedRoutes.includes(location.pathname)
+                ? 'block'
+                : 'none',
+            },
+          }}
         >
           <Tab component={Link} to="/" label="Top" value="Top" />
           <Tab component={Link} to="/genres" label="Genres" value="Genres" />

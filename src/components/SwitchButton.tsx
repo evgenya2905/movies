@@ -1,6 +1,6 @@
+import { useLocation } from 'react-router-dom';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { ISwitchButtonProps } from '../types/types';
-import { useLocation } from 'react-router-dom';
 
 export const SwitchButton = ({ flag, onChange }: ISwitchButtonProps) => {
   const location = useLocation();

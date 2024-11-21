@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { setFlag } from '../shared/utils';
+import { setFlag, getFlag } from '../shared/utils';
 import { FlagType } from '../types/types';
 
 export interface ISwitchState {
@@ -7,7 +7,7 @@ export interface ISwitchState {
 }
 
 const initialState: ISwitchState = {
-  value: 'movie',
+  value: getFlag() || 'movie',
 };
 
 export const switchSlice = createSlice({

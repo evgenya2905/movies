@@ -149,9 +149,13 @@ const theme = createTheme({
       styleOverrides: {
         indicator: {
           backgroundColor: colors.contrastColor,
+          minWidth: '4rem',
+          position: 'absolute',
         },
         flexContainer: {
-          justifyContent: 'space-around',
+          justifyContent: 'flex-start',
+          paddingLeft: '12rem',
+          gap: '15rem',
         },
         root: {
           backgroundColor: colors.primaryDark,
@@ -162,6 +166,9 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           color: colors.contrastColor,
+          width: '4rem',
+          textAlign: 'center',
+          position: 'relative',
           '&.Mui-selected': {
             color: colors.contrastColor,
           },

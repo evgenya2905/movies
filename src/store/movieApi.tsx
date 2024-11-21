@@ -6,6 +6,9 @@ import {
   IResponseGenres,
   IResponseTitleByID,
   ITitleByGenre,
+  ITitleBySearch,
+  IBodyPost,
+  IResponseCheckStatus,
 } from '../types/types';
 
 export const movieApi = createApi({
@@ -46,7 +49,7 @@ export const movieApi = createApi({
       }),
     }),
 
-    toggleFavoriteTitle: builder.mutation<any, any>({
+    toggleFavoriteTitle: builder.mutation<{ success: boolean }, IBodyPost>({
       query: (body) => ({
         url: '/account/21547725/favorite',
         method: 'POST',
@@ -58,19 +61,19 @@ export const movieApi = createApi({
         url: `/account/21547725/watchlist/${category}?language=en-US&page=${page}`,
       }),
     }),
-    toggleWatchlistTitle: builder.mutation<any, any>({
+    toggleWatchlistTitle: builder.mutation<{ success: boolean }, IBodyPost>({
       query: (body) => ({
         url: '/account/21547725/watchlist',
         method: 'POST',
         body,
       }),
     }),
-    checkStatus: builder.query<any, any>({
+    checkStatus: builder.query<IResponseCheckStatus, ITitleArguments>({
       query: ({ category, id }) => ({
         url: `/${category}/${id}/account_states`,
       }),
     }),
-    getTitlesBySearch: builder.query<any, any>({
+    getTitlesBySearch: builder.query<IResponse<ITitleBySearch[]>, string>({
       query: (key) => ({
         url: `/search/multi?query=${key}`,
       }),

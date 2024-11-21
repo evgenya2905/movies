@@ -1,11 +1,10 @@
-import { Paper, Typography, Box } from '@mui/material';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useSelector, UseSelector } from 'react-redux';
+import { Paper, Typography, Box } from '@mui/material';
 import { RootState } from '../store/store';
 
 export const GenreCard = ({ name, id }: { name: string; id: number }) => {
   const category = useSelector((state: RootState) => state.switch.value);
-  console.log(category);
   return (
     <div>
       <Box

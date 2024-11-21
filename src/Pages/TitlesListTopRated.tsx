@@ -1,19 +1,18 @@
-import { Item, Loader, Pages, WrapperTopList } from '../components';
 import { useEffect, useState } from 'react';
-import { useLazyGetTopTitlesQuery } from '../store/movieApi';
 import { useSelector } from 'react-redux';
-import { selectCategory } from '../store/selectors';
+import { RootState } from '../store/store';
+import { useLazyGetTopTitlesQuery } from '../store/movieApi';
+import { Item, Loader, Pages, WrapperTopList } from '../components';
 
 export const TitlesListTopRated = () => {
-  const [getTopTitles, { data: movies, error, isFetching }] =
-    useLazyGetTopTitlesQuery();
+  const [getTopTitles, { data, isFetching }] = useLazyGetTopTitlesQuery();
 
   const [page, setPage] = useState(1);
   const handleChangeFromChild = (value: number) => {
     setPage(value);
   };
 
-  const category = useSelector(selectCategory);
+  const category = useSelector((state: RootState) => state.switch.value);
 
   useEffect(() => {
     getTopTitles({ category, page });
@@ -29,7 +28,7 @@ export const TitlesListTopRated = () => {
         <Loader />
       ) : (
         <WrapperTopList>
-          {movies?.results.map((item) => (
+          {data?.results.map((item) => (
             <Item
               key={item.id}
               id={item.id}
@@ -42,7 +41,7 @@ export const TitlesListTopRated = () => {
       )}
 
       <Pages
-        count={movies?.total_pages}
+        count={data?.total_pages}
         page={page}
         onChange={handleChangeFromChild}
       />

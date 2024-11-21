@@ -1,23 +1,21 @@
+import { useState, useEffect } from 'react';
 import { AppBar, Box, Toolbar, InputBase, Typography } from '@mui/material';
 import { Search, ConnectedTv } from '@mui/icons-material';
-import { useState, useEffect } from 'react';
 import { useLazyGetTitlesBySearchQuery } from '../store/movieApi';
 import { DropdownList } from './';
 
 export const Header = () => {
   const [value, setValue] = useState('');
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   };
 
-  const [getTitlesBySearch, { data, isFetching }] =
-    useLazyGetTitlesBySearchQuery();
+  const [getTitlesBySearch, { data }] = useLazyGetTitlesBySearchQuery();
 
   useEffect(() => {
     getTitlesBySearch(value);
   }, [value]);
-  console.log(data);
 
   return (
     <Box>
@@ -60,22 +58,26 @@ export const Header = () => {
                 flexDirection: 'column',
               }}
             >
-              {data?.results.map(
-                (item) =>
-                  (item.media_type === 'movie' || item.media_type === 'tv') && (
-                    <DropdownList
-                      key={item.id}
-                      id={item.id}
-                      category={item.media_type}
-                      title={
-                        (item.media_type === 'movie' && item.title) ||
-                        (item.media_type === 'tv' && item.name)
-                      }
-                      rate={item.vote_average}
-                      onClick={() => setValue('')}
-                    />
-                  )
-              )}
+              {data?.results
+                .filter(
+                  (item) =>
+                    item.media_type === 'movie' || item.media_type === 'tv'
+                )
+                .slice(0, 10)
+                .map((item) => (
+                  <DropdownList
+                    key={item.id}
+                    id={item.id}
+                    category={item.media_type}
+                    title={
+                      (item.media_type === 'movie' && item.title) ||
+                      (item.media_type === 'tv' && item.name) ||
+                      'Unknown title'
+                    }
+                    rate={item.vote_average}
+                    onClick={() => setValue('')}
+                  />
+                ))}
             </Box>
             <Search sx={{ color: 'white' }} />
           </Box>

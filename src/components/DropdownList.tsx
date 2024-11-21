@@ -1,8 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useLazyGetTitlesBySearchQuery } from '../store/movieApi';
 import { Link } from 'react-router-dom';
-import { Item, Loader, Pages, WrapperTopList } from './';
-import { Typography, Box, Divider } from '@mui/material';
+import { Typography } from '@mui/material';
 
 export const DropdownList = ({
   id,

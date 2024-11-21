@@ -1,34 +1,24 @@
-import { useParams } from 'react-router-dom';
-import { useLazyGetTitleByIdQuery } from '../store/movieApi';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { Box, Typography, IconButton, Paper, Tooltip } from '@mui/material';
 import {
-  Box,
-  Typography,
-  IconButton,
-  Paper,
-  Tooltip,
-  Divider,
-} from '@mui/material';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import { Loader } from '../components';
-import { selectCategory } from '../store/selectors';
+  FavoriteBorder,
+  Favorite,
+  BookmarkBorder,
+  Bookmark,
+  Theaters,
+} from '@mui/icons-material';
 import {
   useToggleFavoriteTitleMutation,
   useToggleWatchlistTitleMutation,
   useLazyCheckStatusQuery,
+  useLazyGetTitleByIdQuery,
 } from '../store/movieApi';
+import { Loader } from '../components';
 
 export const ItemDetail = () => {
   const { category, id, title } = useParams();
-  /* const category = useSelector(selectCategory); */
-
-  const [getTitleById, { data, error, isFetching }] =
-    useLazyGetTitleByIdQuery();
-  console.log(data);
+  const [getTitleById, { data, isFetching }] = useLazyGetTitleByIdQuery();
 
   useEffect(() => {
     getTitleById({ id, category });
@@ -37,9 +27,7 @@ export const ItemDetail = () => {
   const [checkStatus, { data: check }] = useLazyCheckStatusQuery();
 
   const [flagFavorite, setFlagFavorite] = useState(false);
-  console.log(flagFavorite);
   const [flagWatchlist, setFlagWatchlist] = useState(false);
-  console.log(flagWatchlist);
 
   useEffect(() => {
     if (check?.favorite !== undefined && check?.watchlist !== undefined) {
@@ -48,11 +36,14 @@ export const ItemDetail = () => {
     }
   }, [check]);
 
-  const [toggleFavoriteTitle, { isLoading }] = useToggleFavoriteTitleMutation();
-  const addToFavorite = async (event: any) => {
-    event.preventDefault();
-    event.stopPropagation();
+  const [toggleFavoriteTitle] = useToggleFavoriteTitleMutation();
 
+  const addToFavorite = async (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    if (!category || !id) {
+      console.error('Missing required parameters: category or id');
+      return;
+    }
     try {
       await toggleFavoriteTitle({
         media_type: category,
@@ -66,8 +57,12 @@ export const ItemDetail = () => {
     }
   };
 
-  const deleteFromFavorite = async (event: any) => {
+  const deleteFromFavorite = async (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
+    if (!category || !id) {
+      console.error('Missing required parameters: category or id');
+      return;
+    }
     try {
       await toggleFavoriteTitle({
         media_type: category,
@@ -81,12 +76,14 @@ export const ItemDetail = () => {
     }
   };
 
-  const [toggleWatchlistTitle, { isLoading: is }] =
-    useToggleWatchlistTitleMutation();
+  const [toggleWatchlistTitle] = useToggleWatchlistTitleMutation();
 
-  const addToWatchlist = async (event: any) => {
+  const addToWatchlist = async (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-
+    if (!category || !id) {
+      console.error('Missing required parameters: category or id');
+      return;
+    }
     try {
       await toggleWatchlistTitle({
         media_type: category,
@@ -100,9 +97,12 @@ export const ItemDetail = () => {
     }
   };
 
-  const deleteFromWatchlist = async (event: any) => {
+  const deleteFromWatchlist = async (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-
+    if (!category || !id) {
+      console.error('Missing required parameters: category or id');
+      return;
+    }
     try {
       await toggleWatchlistTitle({
         media_type: category,
@@ -111,7 +111,6 @@ export const ItemDetail = () => {
       });
       setFlagWatchlist(false);
       checkStatus({ category, id });
-      console.log('🚀 ~ addToFavorite ~ id:', id);
     } catch (e) {
       console.error(e);
     }
@@ -119,7 +118,6 @@ export const ItemDetail = () => {
 
   useEffect(() => {
     checkStatus({ category, id });
-    console.log(check);
   }, [category, id, checkStatus]);
 
   return (
@@ -134,13 +132,18 @@ export const ItemDetail = () => {
             pt: '2rem',
             pl: '4rem',
             gap: '2rem',
-            /* justifyContent: 'center', */
           }}
         >
-          <img
-            style={{ width: '20rem' }}
-            src={`https://image.tmdb.org/t/p/original${data?.poster_path}`}
-          />
+          {data?.poster_path ? (
+            <img
+              style={{ width: '20rem' }}
+              src={`https://image.tmdb.org/t/p/original${data?.poster_path}`}
+              alt={data.title}
+            />
+          ) : (
+            <Theaters sx={{ fontSize: '15rem', color: 'white', pt: '2rem' }} />
+          )}
+
           <Box
             sx={{
               width: '50rem',
@@ -165,9 +168,9 @@ export const ItemDetail = () => {
                   }
                 >
                   {check?.favorite ? (
-                    <FavoriteIcon sx={{ color: 'primary.main' }} />
+                    <Favorite sx={{ color: 'primary.main' }} />
                   ) : (
-                    <FavoriteBorderIcon sx={{ color: 'secondary.main' }} />
+                    <FavoriteBorder sx={{ color: 'secondary.main' }} />
                   )}
                 </IconButton>
               </Tooltip>
@@ -187,9 +190,9 @@ export const ItemDetail = () => {
                   }
                 >
                   {check?.watchlist ? (
-                    <BookmarkIcon sx={{ color: 'primary.main' }} />
+                    <Bookmark sx={{ color: 'primary.main' }} />
                   ) : (
-                    <BookmarkBorderIcon sx={{ color: 'secondary.main' }} />
+                    <BookmarkBorder sx={{ color: 'secondary.main' }} />
                   )}
                 </IconButton>
               </Tooltip>
@@ -197,10 +200,11 @@ export const ItemDetail = () => {
             <Typography variant="h3">{title}</Typography>
             <Typography
               sx={{ display: 'flex', flexDirection: 'row', gap: '0.5rem' }}
+              component="div"
             >
               Production:{' '}
               {data?.production_countries.map((item) => (
-                <Typography>{item.iso_3166_1}</Typography>
+                <Typography key={item.iso_3166_1}>{item.iso_3166_1}</Typography>
               ))}
             </Typography>
 
@@ -223,8 +227,6 @@ export const ItemDetail = () => {
             )}
             <Typography>{data?.overview}</Typography>
           </Box>
-
-          {/* {title} {id} */}
         </Box>
       )}
     </div>

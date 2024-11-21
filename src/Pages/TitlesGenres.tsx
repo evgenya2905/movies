@@ -1,19 +1,12 @@
-import { useLazyGetTitlesGenresQuery } from '../store/movieApi';
 import { useEffect } from 'react';
-import {
-  GenreCard,
-  Loader,
-  WrapperGenres,
-  ListMoviesByGenre,
-} from '../components';
 import { useSelector } from 'react-redux';
-import { selectCategory } from '../store/selectors';
+import { useLazyGetTitlesGenresQuery } from '../store/movieApi';
+import { RootState } from '../store/store';
+import { GenreCard, Loader, WrapperGenres } from '../components';
 
 export const TitlesGenres = () => {
-  const [getTitlesGenres, { data, error, isFetching }] =
-    useLazyGetTitlesGenresQuery();
-
-  const category = useSelector(selectCategory);
+  const [getTitlesGenres, { data, isFetching }] = useLazyGetTitlesGenresQuery();
+  const category = useSelector((state: RootState) => state.switch.value);
 
   useEffect(() => {
     getTitlesGenres({ category });

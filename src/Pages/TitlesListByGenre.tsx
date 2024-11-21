@@ -1,15 +1,12 @@
-import { useParams } from 'react-router-dom';
-import { useLazyGetTitleByGenreQuery } from '../store/movieApi';
 import { useEffect, useState } from 'react';
-import { Item, Loader, WrapperTopList, Pages } from '../components';
+import { useParams } from 'react-router-dom';
 import { Typography } from '@mui/material';
+import { useLazyGetTitleByGenreQuery } from '../store/movieApi';
+import { Item, Loader, WrapperTopList, Pages } from '../components';
 
 export const TitlesListByGenre = () => {
   const { category, genre, id } = useParams();
-  console.log(category, genre, id);
-
-  const [getTitleByGenre, { data, error, isFetching }] =
-    useLazyGetTitleByGenreQuery();
+  const [getTitleByGenre, { data, isFetching }] = useLazyGetTitleByGenreQuery();
 
   const [page, setPage] = useState(1);
   const handleChangeFromChild = (value: number) => {
@@ -19,14 +16,15 @@ export const TitlesListByGenre = () => {
     getTitleByGenre({ id, category, page });
   }, [id, page]);
 
-  console.log(data);
   return (
     <div>
       {isFetching ? (
         <Loader />
       ) : (
         <div>
-          <Typography variant="h3">{genre}</Typography>
+          <Typography variant="h3" sx={{ textAlign: 'center', p: '0.5rem' }}>
+            {genre}
+          </Typography>
           <WrapperTopList>
             {data?.results.map((item) => (
               <Item

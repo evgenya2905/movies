@@ -1,7 +1,8 @@
-import { FlagType } from '../types/types';
+import { FlagType, TabNameType } from '../types/types';
 
 const keys = {
   flag: 'appmovtv_flag',
+  tabName: 'appmovtv_tabName',
 };
 
 const storageWrapper = (
@@ -32,4 +33,16 @@ export const getFlag = (): FlagType => {
 
 export const removeFlag = () => {
   storageWrapper('remove', keys.flag);
+};
+
+export const setTabName = (tabName: TabNameType) => {
+  storageWrapper('set', keys.tabName, tabName);
+};
+
+export const getTabName = (): TabNameType => {
+  return storageWrapper('get', keys.tabName);
+};
+
+export const removeTabName = () => {
+  storageWrapper('remove', keys.tabName);
 };
